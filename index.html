@@ -58,10 +58,9 @@ body{
 .del-menu button{display:block;width:100%;padding:12px 16px;background:transparent;
   border:none;color:var(--ink);text-align:left;font-size:14px;border-radius:10px;cursor:pointer;
   font-family:inherit;}
-.sheet{position:absolute;inset:0;background:rgba(10,12,16,.92);backdrop-filter:blur(8px);
-  z-index:20;display:flex;flex-direction:column;padding:60px 28px 44px;
-  transform:translateY(100%);transition:.35s cubic-bezier(.4,0,.2,1);}
-.sheet.open{transform:translateY(0);}
+.sheet{position:absolute;inset:0;background:rgba(10,12,16,.96);
+  z-index:20;display:none;flex-direction:column;padding:60px 28px 44px;}
+.sheet.open{display:flex;}
 .sheet h2{font-size:19px;letter-spacing:3px;margin-bottom:12px;}
 .sheet p{color:var(--muted);font-size:14px;line-height:1.9;margin-bottom:20px;}
 .set-btn{display:block;width:100%;margin-bottom:10px;
@@ -72,7 +71,7 @@ body{
 .sheet .close{margin-top:auto;padding:14px;border-radius:14px;text-align:center;
   background:var(--glass);border:1px solid var(--line);color:var(--ink);
   font-size:15px;cursor:pointer;letter-spacing:2px;}
-.picker{position:absolute;inset:0;z-index:30;background:rgba(8,10,14,.96);
+.picker{position:absolute;inset:0;z-index:30;background:rgba(8,10,14,.98);
   display:none;flex-direction:column;padding:70px 28px 36px;}
 .picker.open{display:flex;}
 .picker h2{font-size:17px;letter-spacing:3px;margin-bottom:10px;}
@@ -83,7 +82,7 @@ body{
 .picker input[type=file]{display:none;}
 .picker .close-p{margin-top:auto;padding:14px;text-align:center;
   border-radius:14px;border:1px solid var(--line);color:var(--muted);cursor:pointer;font-size:14px;}
-.cfg{position:absolute;inset:0;z-index:31;background:rgba(8,10,14,.97);
+.cfg{position:absolute;inset:0;z-index:31;background:rgba(8,10,14,.98);
   display:none;flex-direction:column;padding:60px 24px 30px;overflow-y:auto;}
 .cfg.open{display:flex;}
 .cfg h2{font-size:17px;letter-spacing:3px;margin-bottom:8px;}
@@ -130,9 +129,8 @@ body{
   border-radius:14px;border:1px solid var(--line);color:var(--muted);cursor:pointer;font-size:14px;}
 
 .chat{position:absolute;inset:0;z-index:40;background:#0b0d11;
-  display:none;flex-direction:column;transform:translateY(100%);
-  transition:.3s cubic-bezier(.4,0,.2,1);}
-.chat.open{display:flex;transform:translateY(0);}
+  display:none;flex-direction:column;}
+.chat.open{display:flex;}
 .chat-bg{position:absolute;inset:0;background-size:cover;background-position:center;
   background-color:#0b0d11;z-index:0;}
 .chat-bg:after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.78);}
@@ -289,14 +287,13 @@ var chatSend = document.getElementById("chatSend");
 var WALL_KEY  = "phone_wall";
 var API_KEY   = "phone_api";
 var CHARS_KEY = "phone_chars";
-var CHAT_VER  = "v21_";
+var CHAT_VER  = "v22_";
 
 var FORMAT_HINT = "【最高优先级规则】①每次回复必须是长对话，至少150字，要有动作、台词、细节描写、心理活动，把这一段写得完整。②如果设定里写了弹幕、心理活动等格式要求，一并照做。③【强制】每次回复的最后，必须用 A/B/C/D 四个选项，让玩家选下一步，漏一次算错。④设定写了什么就一字不差照做，这是硬性要求，不是建议。";
 
 var currentChar = null;
 var currentHist = [];
 var pickMode = "icon";
-var _settingBusy = false;
 
 function tick(){
   var d = new Date();
@@ -411,9 +408,6 @@ document.getElementById("delBtn").onclick = function(){
 };
 
 function openSettings(){
-  if(_settingBusy) return;
-  _settingBusy = true;
-
   var c = getApi();
   sheet.innerHTML =
     '<h2>设置</h2>' +
@@ -516,12 +510,7 @@ function openSettings(){
     alert("导入完成。回桌面看。");
   };
 
-  document.getElementById("shClose").onclick = function(){
-    sheet.classList.remove("open");
-    _settingBusy = false;
-  };
-
-  setTimeout(function(){ _settingBusy = false; }, 400);
+  document.getElementById("shClose").onclick = function(){ sheet.classList.remove("open"); };
 }
 
 function openPicker(mode){
@@ -562,7 +551,6 @@ function drawPickList(kw){
 
     row.onclick = function(){
       document.getElementById("pickPage").classList.remove("open");
-      document.getElementById("sheet").classList.remove("open");
 
       if(pickMode === "icon"){
         pickImage(function(url){
@@ -570,7 +558,6 @@ function drawPickList(kw){
           a[i].img = url;
           setChars(a);
           renderGrid();
-          _settingBusy = false;
           openSettings();
         });
       } else {
@@ -581,7 +568,6 @@ function drawPickList(kw){
           setChars(a);
           renderGrid();
         }
-        _settingBusy = false;
         openSettings();
       }
     };
@@ -596,7 +582,6 @@ document.getElementById("pickSearch").addEventListener("input", function(e){
 
 document.getElementById("pickClose").onclick = function(){
   document.getElementById("pickPage").classList.remove("open");
-  _settingBusy = false;
   openSettings();
 };
 

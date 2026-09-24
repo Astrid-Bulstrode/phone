@@ -58,8 +58,13 @@ body{
 .del-menu button{display:block;width:100%;padding:12px 16px;background:transparent;
   border:none;color:var(--ink);text-align:left;font-size:14px;border-radius:10px;cursor:pointer;
   font-family:inherit;}
-.sheet{position:absolute;inset:0;background:rgba(10,12,16,.96);
-  z-index:20;display:none;flex-direction:column;padding:60px 28px 44px;}
+
+.sheet{
+  position:fixed;inset:0;
+  background:rgba(10,12,16,.98);
+  z-index:20;display:none;flex-direction:column;
+  padding:60px 28px 44px;overflow-y:auto;
+}
 .sheet.open{display:flex;}
 .sheet h2{font-size:19px;letter-spacing:3px;margin-bottom:12px;}
 .sheet p{color:var(--muted);font-size:14px;line-height:1.9;margin-bottom:20px;}
@@ -71,8 +76,9 @@ body{
 .sheet .close{margin-top:auto;padding:14px;border-radius:14px;text-align:center;
   background:var(--glass);border:1px solid var(--line);color:var(--ink);
   font-size:15px;cursor:pointer;letter-spacing:2px;}
-.picker{position:absolute;inset:0;z-index:30;background:rgba(8,10,14,.98);
-  display:none;flex-direction:column;padding:70px 28px 36px;}
+
+.picker{position:fixed;inset:0;z-index:30;background:rgba(8,10,14,.98);
+  display:none;flex-direction:column;padding:70px 28px 36px;overflow-y:auto;}
 .picker.open{display:flex;}
 .picker h2{font-size:17px;letter-spacing:3px;margin-bottom:10px;}
 .picker .tip{font-size:12.5px;color:var(--muted);line-height:1.8;margin-bottom:20px;}
@@ -82,7 +88,8 @@ body{
 .picker input[type=file]{display:none;}
 .picker .close-p{margin-top:auto;padding:14px;text-align:center;
   border-radius:14px;border:1px solid var(--line);color:var(--muted);cursor:pointer;font-size:14px;}
-.cfg{position:absolute;inset:0;z-index:31;background:rgba(8,10,14,.98);
+
+.cfg{position:fixed;inset:0;z-index:31;background:rgba(8,10,14,.98);
   display:none;flex-direction:column;padding:60px 24px 30px;overflow-y:auto;}
 .cfg.open{display:flex;}
 .cfg h2{font-size:17px;letter-spacing:3px;margin-bottom:8px;}
@@ -99,7 +106,7 @@ body{
   font-family:inherit;}
 .cfg .row .ok{background:var(--gold);color:#1a1206;border-color:var(--gold);font-weight:600;}
 
-.pick{position:absolute;inset:0;z-index:32;background:rgba(8,10,14,.98);
+.pick{position:fixed;inset:0;z-index:32;background:rgba(8,10,14,.98);
   display:none;flex-direction:column;padding:60px 20px 30px;}
 .pick.open{display:flex;}
 .pick h2{font-size:17px;letter-spacing:3px;margin-bottom:12px;}
@@ -128,8 +135,10 @@ body{
 .pick .foot{margin-top:14px;padding:14px;text-align:center;
   border-radius:14px;border:1px solid var(--line);color:var(--muted);cursor:pointer;font-size:14px;}
 
-.chat{position:absolute;inset:0;z-index:40;background:#0b0d11;
-  display:none;flex-direction:column;}
+.chat{
+  position:fixed;inset:0;z-index:40;
+  background:#0b0d11;display:none;flex-direction:column;
+}
 .chat.open{display:flex;}
 .chat-bg{position:absolute;inset:0;background-size:cover;background-position:center;
   background-color:#0b0d11;z-index:0;}
@@ -287,7 +296,7 @@ var chatSend = document.getElementById("chatSend");
 var WALL_KEY  = "phone_wall";
 var API_KEY   = "phone_api";
 var CHARS_KEY = "phone_chars";
-var CHAT_VER  = "v22_";
+var CHAT_VER  = "v23_";
 
 var FORMAT_HINT = "【最高优先级规则】①每次回复必须是长对话，至少150字，要有动作、台词、细节描写、心理活动，把这一段写得完整。②如果设定里写了弹幕、心理活动等格式要求，一并照做。③【强制】每次回复的最后，必须用 A/B/C/D 四个选项，让玩家选下一步，漏一次算错。④设定写了什么就一字不差照做，这是硬性要求，不是建议。";
 
@@ -464,7 +473,7 @@ function openSettings(){
 
     var box = document.createElement("div");
     box.style.cssText =
-      "position:absolute;inset:0;z-index:99;background:rgba(0,0,0,.92);"+
+      "position:fixed;inset:0;z-index:99;background:rgba(0,0,0,.94);"+
       "display:flex;flex-direction:column;padding:60px 20px 30px;";
     box.innerHTML =
       '<div style="font-size:14px;color:#c8a45c;letter-spacing:2px;margin-bottom:10px;">'+
@@ -477,7 +486,7 @@ function openSettings(){
       '<button id="expClose" style="margin-top:12px;padding:14px;border-radius:12px;'+
       'background:#c8a45c;color:#1a1206;border:none;font-size:15px;font-weight:600;">关闭</button>';
 
-    document.querySelector(".phone").appendChild(box);
+    document.body.appendChild(box);
 
     document.getElementById("expClose").onclick = function(){
       box.parentNode.removeChild(box);
@@ -991,4 +1000,4 @@ document.getElementById("chatClear").onclick = function(){
 renderGrid();
 </script>
 </body>
-</html>
+  </html>

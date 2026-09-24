@@ -105,11 +105,7 @@ body{
 .chat.open{display:flex;transform:translateY(0);}
 .chat-bg{position:absolute;inset:0;background-size:cover;background-position:center;
   background-color:#0b0d11;z-index:0;}
-.chat-bg:after{
-  content:"";
-  position:absolute;inset:0;
-  background:rgba(0,0,0,.78);
-}
+.chat-bg:after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.78);}
 .chat-top, .chat-body, .chat-input{position:relative;z-index:1;}
 .chat-top{display:flex;align-items:center;gap:8px;
   padding:18px 16px 12px;border-bottom:1px solid var(--line);
@@ -256,7 +252,7 @@ var chatSend = document.getElementById("chatSend");
 var WALL_KEY  = "phone_wall";
 var API_KEY   = "phone_api";
 var CHARS_KEY = "phone_chars";
-var CHAT_VER  = "v14_";
+var CHAT_VER  = "v15_";
 
 var FORMAT_HINT = "【最高优先级规则】①每次回复必须是长对话，至少150字，要有动作、台词、细节描写、心理活动，把这一段写得完整。②如果设定里写了弹幕、心理活动等格式要求，一并照做。③【强制】每次回复的最后，必须用 A/B/C/D 四个选项，让玩家选下一步，漏一次算错。④设定写了什么就一字不差照做，这是硬性要求，不是建议。";
 
@@ -383,6 +379,7 @@ function openSettings(){
     '<button class="set-btn" id="setIcon">换桌面图标</button>' +
     '<button class="set-btn" id="setName">角色改名</button>' +
     '<button class="set-btn" id="setApi">API 设置</button>' +
+    '<button class="set-btn" id="setExport">导出存档</button>' +
     '<div class="set-info">当前 API：' + (c.url ? c.url : "未填写") +
     '<br>模型：' + (c.model || "未填写") + '</div>' +
     '<div class="close" id="shClose">退出</div>';
@@ -429,6 +426,46 @@ function openSettings(){
     document.getElementById("cKey").value = cc.key;
     document.getElementById("cModel").value = cc.model;
     cfg.classList.add("open");
+  };
+
+  document.getElementById("setExport").onclick = function(){
+    var pack = {
+      chars: getChars(),
+      api: getApi(),
+      chats: {},
+      ver: CHAT_VER
+    };
+
+    var chars = getChars();
+    chars.forEach(function(c, i){
+      try{
+        var h = JSON.parse(localStorage.getItem(CHAT_VER+"chat_"+i));
+        if(h) pack.chats[i] = h;
+      }catch(e){}
+    });
+
+    var txt = JSON.stringify(pack);
+
+    var box = document.createElement("div");
+    box.style.cssText =
+      "position:absolute;inset:0;z-index:99;background:rgba(0,0,0,.92);"+
+      "display:flex;flex-direction:column;padding:60px 20px 30px;";
+    box.innerHTML =
+      '<div style="font-size:14px;color:#c8a45c;letter-spacing:2px;margin-bottom:10px;">'+
+      '存档已生成。长按下面那段字，全选、复制，存到别处。'+
+      '</div>'+
+      '<textarea readonly style="flex:1;background:#141821;color:#e8edf5;border:1px solid #2a3547;'+
+      'border-radius:10px;padding:10px;font-size:11px;line-height:1.5;resize:none;outline:none;">'+
+      txt +
+      '</textarea>'+
+      '<button id="expClose" style="margin-top:12px;padding:14px;border-radius:12px;'+
+      'background:#c8a45c;color:#1a1206;border:none;font-size:15px;font-weight:600;">关闭</button>';
+
+    document.querySelector(".phone").appendChild(box);
+
+    document.getElementById("expClose").onclick = function(){
+      box.parentNode.removeChild(box);
+    };
   };
 
   document.getElementById("shClose").onclick = function(){ sheet.classList.remove("open"); };
@@ -840,4 +877,4 @@ document.getElementById("chatClear").onclick = function(){
 renderGrid();
 </script>
 </body>
-</html>
+  </html>

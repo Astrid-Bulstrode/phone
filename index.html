@@ -99,6 +99,37 @@ body{
   background:transparent;color:var(--ink);font-size:15px;letter-spacing:1px;cursor:pointer;
   font-family:inherit;}
 .cfg .row .ok{background:var(--gold);color:#1a1206;border-color:var(--gold);font-weight:600;}
+
+/* 角色列表页 */
+.pick{position:absolute;inset:0;z-index:32;background:rgba(8,10,14,.98);
+  display:none;flex-direction:column;padding:60px 20px 30px;}
+.pick.open{display:flex;}
+.pick h2{font-size:17px;letter-spacing:3px;margin-bottom:12px;}
+.pick .search{
+  width:100%;padding:12px 14px;margin-bottom:14px;
+  background:rgba(255,255,255,.06);border:1px solid var(--line);
+  border-radius:12px;color:var(--ink);font-size:14px;outline:none;font-family:inherit;
+}
+.pick .search:focus{border-color:var(--gold);}
+.pick .list{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;}
+.pick .row{
+  display:flex;align-items:center;gap:12px;
+  padding:10px 12px;border-radius:14px;
+  background:rgba(255,255,255,.05);border:1px solid var(--line);
+  cursor:pointer;
+}
+.pick .row:active{background:rgba(255,255,255,.12);}
+.pick .row .mini{
+  width:42px;height:42px;border-radius:12px;flex:none;
+  background-size:cover;background-position:center;
+  background-color:#1a2030;border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;color:var(--ink);
+}
+.pick .row .nm{font-size:15px;color:var(--ink);}
+.pick .foot{margin-top:14px;padding:14px;text-align:center;
+  border-radius:14px;border:1px solid var(--line);color:var(--muted);cursor:pointer;font-size:14px;}
+
 .chat{position:absolute;inset:0;z-index:40;background:#0b0d11;
   display:none;flex-direction:column;transform:translateY(100%);
   transition:.3s cubic-bezier(.4,0,.2,1);}
@@ -218,6 +249,13 @@ body{
     </div>
   </div>
 
+  <div class="pick" id="pickPage">
+    <h2 id="pickTitle">选择角色</h2>
+    <input class="search" id="pickSearch" placeholder="搜索名字…">
+    <div class="list" id="pickList"></div>
+    <div class="foot" id="pickClose">返回</div>
+  </div>
+
   <div class="chat" id="chat">
     <div class="chat-bg" id="chatBg"></div>
     <div class="chat-top">
@@ -252,12 +290,13 @@ var chatSend = document.getElementById("chatSend");
 var WALL_KEY  = "phone_wall";
 var API_KEY   = "phone_api";
 var CHARS_KEY = "phone_chars";
-var CHAT_VER  = "v15_";
+var CHAT_VER  = "v17_";
 
 var FORMAT_HINT = "【最高优先级规则】①每次回复必须是长对话，至少150字，要有动作、台词、细节描写、心理活动，把这一段写得完整。②如果设定里写了弹幕、心理活动等格式要求，一并照做。③【强制】每次回复的最后，必须用 A/B/C/D 四个选项，让玩家选下一步，漏一次算错。④设定写了什么就一字不差照做，这是硬性要求，不是建议。";
 
 var currentChar = null;
 var currentHist = [];
+var pickMode = "icon";
 
 function tick(){
   var d = new Date();
@@ -380,6 +419,7 @@ function openSettings(){
     '<button class="set-btn" id="setName">角色改名</button>' +
     '<button class="set-btn" id="setApi">API 设置</button>' +
     '<button class="set-btn" id="setExport">导出存档</button>' +
+    '<button class="set-btn" id="setImport">导入存档</button>' +
     '<div class="set-info">当前 API：' + (c.url ? c.url : "未填写") +
     '<br>模型：' + (c.model || "未填写") + '</div>' +
     '<div class="close" id="shClose">退出</div>';
@@ -390,34 +430,13 @@ function openSettings(){
   };
 
   document.getElementById("setIcon").onclick = function(){
-    var arr = getChars();
-    if(arr.length === 0){ alert("还没有角色。先加一个。"); return; }
-    var names = arr.map(function(x, i){ return (i+1) + ". " + (x.name || "角色"); }).join("\n");
-    var pick = prompt("给哪个角色换图标？输入序号：\n" + names, "1");
-    if(!pick) return;
-    var i = parseInt(pick) - 1;
-    if(!arr[i]) return;
-    pickImage(function(url){
-      arr[i].img = url;
-      setChars(arr);
-      renderGrid();
-      alert("已换。");
-    });
+    sheet.classList.remove("open");
+    openPicker("icon");
   };
 
   document.getElementById("setName").onclick = function(){
-    var arr = getChars();
-    if(arr.length === 0){ alert("还没有角色。先加一个。"); return; }
-    var names = arr.map(function(x, i){ return (i+1) + ". " + (x.name || "角色"); }).join("\n");
-    var pick = prompt("给哪个角色改名？输入序号：\n" + names, "1");
-    if(!pick) return;
-    var i = parseInt(pick) - 1;
-    if(!arr[i]) return;
-    var nn = prompt("新名字：", arr[i].name || "角色");
-    if(!nn) return;
-    arr[i].name = nn.slice(0,8);
-    setChars(arr);
-    renderGrid();
+    sheet.classList.remove("open");
+    openPicker("name");
   };
 
   document.getElementById("setApi").onclick = function(){
@@ -468,8 +487,105 @@ function openSettings(){
     };
   };
 
+  document.getElementById("setImport").onclick = function(){
+    var txt = prompt("把之前导出的那段存档，粘进下面：");
+    if(!txt) return;
+
+    var pack;
+    try{ pack = JSON.parse(txt); }
+    catch(e){ alert("这段不对，检查一下有没有粘全。"); return; }
+
+    if(!pack.chars){ alert("里面没有角色。"); return; }
+
+    setChars(pack.chars);
+
+    if(pack.chats){
+      Object.keys(pack.chats).forEach(function(k){
+        try{
+          localStorage.setItem(CHAT_VER+"chat_"+k, JSON.stringify(pack.chats[k]));
+        }catch(e){}
+      });
+    }
+
+    if(pack.api){ setApi(pack.api); }
+
+    renderGrid();
+    alert("导入完成。回桌面看。");
+  };
+
   document.getElementById("shClose").onclick = function(){ sheet.classList.remove("open"); };
 }
+
+/* ===== 角色列表：换图标 / 改名 ===== */
+function openPicker(mode){
+  pickMode = mode;
+  document.getElementById("pickTitle").textContent =
+    mode === "icon" ? "选择要换图标的角色" : "选择要改名的角色";
+  document.getElementById("pickSearch").value = "";
+  drawPickList("");
+  document.getElementById("pickPage").classList.add("open");
+}
+
+function drawPickList(kw){
+  var arr = getChars();
+  var list = document.getElementById("pickList");
+  list.innerHTML = "";
+
+  arr.forEach(function(c, i){
+    var nm = c.name || "角色";
+    if(kw && nm.indexOf(kw) === -1) return;
+
+    var row = document.createElement("div");
+    row.className = "row";
+
+    var mini = document.createElement("div");
+    mini.className = "mini";
+    if(c.img){
+      mini.style.backgroundImage = "url('"+c.img+"')";
+    } else {
+      mini.textContent = c.icon || "？";
+    }
+
+    var nameEl = document.createElement("div");
+    nameEl.className = "nm";
+    nameEl.textContent = nm;
+
+    row.appendChild(mini);
+    row.appendChild(nameEl);
+
+    row.onclick = function(){
+      document.getElementById("pickPage").classList.remove("open");
+
+      if(pickMode === "icon"){
+        pickImage(function(url){
+          var a = getChars();
+          a[i].img = url;
+          setChars(a);
+          renderGrid();
+          alert("图标已换。");
+        });
+      } else {
+        var nn = prompt("新名字：", nm);
+        if(!nn) return;
+        var a = getChars();
+        a[i].name = nn.slice(0,8);
+        setChars(a);
+        renderGrid();
+        alert("已改名。");
+      }
+    };
+
+    list.appendChild(row);
+  });
+}
+
+document.getElementById("pickSearch").addEventListener("input", function(e){
+  drawPickList(e.target.value.trim());
+});
+
+document.getElementById("pickClose").onclick = function(){
+  document.getElementById("pickPage").classList.remove("open");
+};
 
 document.getElementById("pClose").onclick = function(){
   picker.classList.remove("open"); openSettings();
@@ -877,4 +993,4 @@ document.getElementById("chatClear").onclick = function(){
 renderGrid();
 </script>
 </body>
-  </html>
+</html>

@@ -161,80 +161,79 @@ body{
   <div class="wall" id="wall"></div>
 
   <div class="status">
-	<span id="stTime">--:--</span>
-	<span>⚡ ▮▮▮</span>
+    <span id="stTime">--:--</span>
+    <span>⚡ ▮▮▮</span>
   </div>
 
   <div class="clock" id="clock">
-	<div class="big" id="clkBig">--:--</div>
-	<div class="day" id="clkDay">星 期 --</div>
+    <div class="big" id="clkBig">--:--</div>
+    <div class="day" id="clkDay">星 期 --</div>
   </div>
 
   <div class="grid" id="grid"></div>
 
   <div class="dock">
-	<div class="app" data-app="settings">
-	  <div class="icon settings">⚙</div>
-	  <div class="nm">设置</div>
-	</div>
+    <div class="app" data-app="settings">
+      <div class="icon settings">⚙</div>
+      <div class="nm">设置</div>
+    </div>
   </div>
 
   <div class="bar-home"></div>
 
   <div class="mask" id="mask"></div>
   <div class="del-menu" id="delMenu">
-	<button id="delBtn">删除这个图标</button>
-	<button id="delCancel">取消</button>
+    <button id="delBtn">删除这个图标</button>
+    <button id="delCancel">取消</button>
   </div>
 
   <div class="sheet" id="sheet"></div>
 
   <div class="picker" id="picker">
-	<h2>换 壁 纸</h2>
-	<div class="tip">从相册选一张图，存在本地。下次打开还是这张。</div>
-	<label>选择图片<input type="file" id="filePick" accept="image/*"></label>
-	<div class="close-p" id="pClose">返回</div>
+    <h2>换 壁 纸</h2>
+    <div class="tip">从相册选一张图，存在本地。下次打开还是这张。</div>
+    <label>选择图片<input type="file" id="filePick" accept="image/*"></label>
+    <div class="close-p" id="pClose">返回</div>
   </div>
 
   <div class="cfg" id="cfg">
-	<h2>API 设 置</h2>
-	<div class="tip">这里填一次，所有 App 共用。</div>
-	<label>接口地址</label>
-	<input id="cUrl" placeholder="https://.../v1/chat/completions">
-	<label>API Key</label>
-	<input id="cKey" placeholder="sk-...">
-	<label>模型</label>
-	<input id="cModel" placeholder="deepseek-chat">
-	<div class="row">
-	  <button id="cBack">返回</button>
-	  <button class="ok" id="cSave">保存</button>
-	</div>
+    <h2>API 设 置</h2>
+    <div class="tip">这里填一次，所有 App 共用。</div>
+    <label>接口地址</label>
+    <input id="cUrl" placeholder="https://.../v1/chat/completions">
+    <label>API Key</label>
+    <input id="cKey" placeholder="sk-...">
+    <label>模型</label>
+    <input id="cModel" placeholder="deepseek-chat">
+    <div class="row">
+      <button id="cBack">返回</button>
+      <button class="ok" id="cSave">保存</button>
+    </div>
   </div>
 
   <div class="cfg" id="addcfg">
-	<h2>添 加 人 设</h2>
-	<div class="tip">把完整设定整段粘进下面。名字和图标不用填，保存后模型会自己读、自己挑。</div>
-	<label>完整设定</label>
-	<textarea id="aText" placeholder="把人设整段粘进来……"></textarea>
-	<div class="row">
-	  <button id="aBack">返回</button>
-	  <button class="ok" id="aSave">保存</button>
-	</div>
+    <h2>添 加 人 设</h2>
+    <div class="tip">把完整设定整段粘进下面。名字和图标不用填，保存后模型会自己读、自己挑。</div>
+    <label>完整设定</label>
+    <textarea id="aText" placeholder="把人设整段粘进来……"></textarea>
+    <div class="row">
+      <button id="aBack">返回</button>
+      <button class="ok" id="aSave">保存</button>
+    </div>
   </div>
 
   <div class="chat" id="chat">
-	<div class="chat-bg" id="chatBg"></div>
-	<div class="chat-top">
-	  <button class="back" id="chatBack">←</button>
-	  <div class="t" id="chatTitle">——</div>
-	  <button class="clear" id="chatBgBtn">背景</button>
-	  <button class="clear" id="chatClear">清空</button>
-	</div>
-	<div class="chat-body" id="chatBody"></div>
-	<div class="chat-input">
-	  <textarea id="chatTxt" rows="1" placeholder="说点什么……"></textarea>
-	  <button id="chatSend">发送</button>
-	</div>
+    <div class="chat-bg" id="chatBg"></div>
+    <div class="chat-top">
+      <button class="back" id="chatBack">←</button>
+      <div class="t" id="chatTitle">——</div>
+      <button class="clear" id="chatClear">清空</button>
+    </div>
+    <div class="chat-body" id="chatBody"></div>
+    <div class="chat-input">
+      <textarea id="chatTxt" rows="1" placeholder="说点什么……"></textarea>
+      <button id="chatSend">发送</button>
+    </div>
   </div>
 
 </div>
@@ -257,7 +256,7 @@ var chatSend = document.getElementById("chatSend");
 var WALL_KEY  = "phone_wall";
 var API_KEY   = "phone_api";
 var CHARS_KEY = "phone_chars";
-var CHAT_VER  = "v13_";
+var CHAT_VER  = "v14_";
 
 var FORMAT_HINT = "【最高优先级规则】①每次回复必须是长对话，至少150字，要有动作、台词、细节描写、心理活动，把这一段写得完整。②如果设定里写了弹幕、心理活动等格式要求，一并照做。③【强制】每次回复的最后，必须用 A/B/C/D 四个选项，让玩家选下一步，漏一次算错。④设定写了什么就一字不差照做，这是硬性要求，不是建议。";
 
@@ -281,8 +280,8 @@ if(savedWall) setWall(savedWall);
 
 function getApi(){
   try{
-	var c = JSON.parse(localStorage.getItem(API_KEY));
-	if(c && c.url) return c;
+    var c = JSON.parse(localStorage.getItem(API_KEY));
+    if(c && c.url) return c;
   }catch(e){}
   return { url:"", key:"", model:"deepseek-chat" };
 }
@@ -297,25 +296,44 @@ function setChars(arr){
   try{ localStorage.setItem(CHARS_KEY, JSON.stringify(arr)); }catch(e){}
 }
 
+function pickImage(cb){
+  var input = document.createElement("input");
+  input.type = "file";
+  input.accept = "image/*";
+  input.onchange = function(e){
+    var f = e.target.files[0];
+    if(!f) return;
+    var r = new FileReader();
+    r.onload = function(ev){ cb(ev.target.result); };
+    r.readAsDataURL(f);
+  };
+  input.click();
+}
+
 function renderGrid(){
   var chars = getChars();
   var html = "";
 
   chars.forEach(function(c, i){
-	html +=
-	  '<div class="app" data-app="char" data-idx="'+i+'">' +
-		'<div class="icon" style="background:linear-gradient(145deg,#2b2f4a,#15182a);">'+
-		  (c.icon || "？") +
-		'</div>' +
-		'<div class="nm">'+ (c.name || "角色") +'</div>' +
-	  '</div>';
+    html +=
+      '<div class="app" data-app="char" data-idx="'+i+'">' +
+        '<div class="icon" style="'+
+          (c.img
+            ? 'background-image:url('+c.img+');background-size:cover;background-position:center;'
+            : 'background:linear-gradient(145deg,#2b2f4a,#15182a);'
+          )+
+        '">'+
+          (c.img ? "" : (c.icon || "？")) +
+        '</div>' +
+        '<div class="nm">'+ (c.name || "角色") +'</div>' +
+      '</div>';
   });
 
   html +=
-	'<div class="app" data-app="add">' +
-	  '<div class="icon add">＋</div>' +
-	  '<div class="nm">添加</div>' +
-	'</div>';
+    '<div class="app" data-app="add">' +
+      '<div class="icon add">＋</div>' +
+      '<div class="nm">添加</div>' +
+    '</div>';
 
   grid.innerHTML = html;
   bindApps();
@@ -323,24 +341,24 @@ function renderGrid(){
 
 function bindApps(){
   document.querySelectorAll(".app").forEach(function(a){
-	a.onclick = function(){
-	  var k = a.dataset.app;
-	  if(k === "settings"){ openSettings(); return; }
-	  if(k === "add"){ addcfg.classList.add("open"); return; }
-	  if(k === "char"){ openChat(parseInt(a.dataset.idx)); return; }
-	};
-	var t = null;
-	a.addEventListener("touchstart", function(){
-	  t = setTimeout(function(){
-		if(a.dataset.app === "char"){
-		  mask.classList.add("open");
-		  delMenu.classList.add("open");
-		  delMenu.dataset.idx = a.dataset.idx;
-		}
-	  }, 700);
-	});
-	a.addEventListener("touchend", function(){ clearTimeout(t); });
-	a.addEventListener("touchmove", function(){ clearTimeout(t); });
+    a.onclick = function(){
+      var k = a.dataset.app;
+      if(k === "settings"){ openSettings(); return; }
+      if(k === "add"){ addcfg.classList.add("open"); return; }
+      if(k === "char"){ openChat(parseInt(a.dataset.idx)); return; }
+    };
+    var t = null;
+    a.addEventListener("touchstart", function(){
+      t = setTimeout(function(){
+        if(a.dataset.app === "char"){
+          mask.classList.add("open");
+          delMenu.classList.add("open");
+          delMenu.dataset.idx = a.dataset.idx;
+        }
+      }, 700);
+    });
+    a.addEventListener("touchend", function(){ clearTimeout(t); });
+    a.addEventListener("touchmove", function(){ clearTimeout(t); });
   });
 }
 
@@ -353,7 +371,6 @@ document.getElementById("delBtn").onclick = function(){
   arr.splice(idx, 1);
   setChars(arr);
   try{ localStorage.removeItem(CHAT_VER+"chat_"+idx); }catch(e){}
-  try{ localStorage.removeItem("bg_"+idx); }catch(e){}
   mask.classList.remove("open"); delMenu.classList.remove("open");
   renderGrid();
 };
@@ -361,21 +378,59 @@ document.getElementById("delBtn").onclick = function(){
 function openSettings(){
   var c = getApi();
   sheet.innerHTML =
-	'<h2>设置</h2>' +
-	'<button class="set-btn" id="setWall">换壁纸</button>' +
-	'<button class="set-btn" id="setApi">API 设置</button>' +
-	'<div class="set-info">当前 API：' + (c.url ? c.url : "未填写") +
-	'<br>模型：' + (c.model || "未填写") + '</div>' +
-	'<div class="close" id="shClose">退出</div>';
+    '<h2>设置</h2>' +
+    '<button class="set-btn" id="setWall">换桌面壁纸</button>' +
+    '<button class="set-btn" id="setIcon">换桌面图标</button>' +
+    '<button class="set-btn" id="setName">角色改名</button>' +
+    '<button class="set-btn" id="setApi">API 设置</button>' +
+    '<div class="set-info">当前 API：' + (c.url ? c.url : "未填写") +
+    '<br>模型：' + (c.model || "未填写") + '</div>' +
+    '<div class="close" id="shClose">退出</div>';
   sheet.classList.add("open");
-  document.getElementById("setWall").onclick = function(){ picker.classList.add("open"); };
-  document.getElementById("setApi").onclick = function(){
-	var cc = getApi();
-	document.getElementById("cUrl").value = cc.url;
-	document.getElementById("cKey").value = cc.key;
-	document.getElementById("cModel").value = cc.model;
-	cfg.classList.add("open");
+
+  document.getElementById("setWall").onclick = function(){
+    picker.classList.add("open");
   };
+
+  document.getElementById("setIcon").onclick = function(){
+    var arr = getChars();
+    if(arr.length === 0){ alert("还没有角色。先加一个。"); return; }
+    var names = arr.map(function(x, i){ return (i+1) + ". " + (x.name || "角色"); }).join("\n");
+    var pick = prompt("给哪个角色换图标？输入序号：\n" + names, "1");
+    if(!pick) return;
+    var i = parseInt(pick) - 1;
+    if(!arr[i]) return;
+    pickImage(function(url){
+      arr[i].img = url;
+      setChars(arr);
+      renderGrid();
+      alert("已换。");
+    });
+  };
+
+  document.getElementById("setName").onclick = function(){
+    var arr = getChars();
+    if(arr.length === 0){ alert("还没有角色。先加一个。"); return; }
+    var names = arr.map(function(x, i){ return (i+1) + ". " + (x.name || "角色"); }).join("\n");
+    var pick = prompt("给哪个角色改名？输入序号：\n" + names, "1");
+    if(!pick) return;
+    var i = parseInt(pick) - 1;
+    if(!arr[i]) return;
+    var nn = prompt("新名字：", arr[i].name || "角色");
+    if(!nn) return;
+    arr[i].name = nn.slice(0,8);
+    setChars(arr);
+    renderGrid();
+  };
+
+  document.getElementById("setApi").onclick = function(){
+    var cc = getApi();
+    document.getElementById("cUrl").value = cc.url;
+    document.getElementById("cKey").value = cc.key;
+    document.getElementById("cModel").value = cc.model;
+    cfg.classList.add("open");
+  };
+
   document.getElementById("shClose").onclick = function(){ sheet.classList.remove("open"); };
 }
 
@@ -387,11 +442,11 @@ document.getElementById("filePick").onchange = function(e){
   if(!f) return;
   var r = new FileReader();
   r.onload = function(ev){
-	var url = ev.target.result;
-	try{ localStorage.setItem(WALL_KEY, url); }catch(err){}
-	setWall(url);
-	picker.classList.remove("open");
-	openSettings();
+    var url = ev.target.result;
+    try{ localStorage.setItem(WALL_KEY, url); }catch(err){}
+    setWall(url);
+    picker.classList.remove("open");
+    openSettings();
   };
   r.readAsDataURL(f);
 };
@@ -401,9 +456,9 @@ document.getElementById("cBack").onclick = function(){
 };
 document.getElementById("cSave").onclick = function(){
   setApi({
-	url: document.getElementById("cUrl").value.trim(),
-	key: document.getElementById("cKey").value.trim(),
-	model: document.getElementById("cModel").value.trim() || "deepseek-chat"
+    url: document.getElementById("cUrl").value.trim(),
+    key: document.getElementById("cKey").value.trim(),
+    model: document.getElementById("cModel").value.trim() || "deepseek-chat"
   });
   alert("已保存。");
   cfg.classList.remove("open"); openSettings();
@@ -418,60 +473,59 @@ document.getElementById("aSave").onclick = function(){
 
   var api = getApi();
   if(!api.url || !api.key){
-	alert("先填 API。");
-	return;
+    alert("先填 API。");
+    return;
   }
 
   alert("正在让模型读设定、抓名字……");
   document.getElementById("aSave").disabled = true;
 
   var askMsgs = [
-	{ role:"system", content:"你是分析器。用户给一段设定，你从里面提炼“主名字”和“一个字的图标”。只回 JSON，不要解释，不要代码块。格式：{\"name\":\"名字\",\"icon\":\"字\"}。名字不超过6个字，是这段设定里最主要那个人；图标只有一个汉字。" },
-	{ role:"user", content: text.slice(0, 4000) }
+    { role:"system", content:"你是分析器。用户给一段设定，你从里面提炼“主名字”和“一个字的图标”。只回 JSON，不要解释，不要代码块。格式：{\"name\":\"名字\",\"icon\":\"字\"}。名字不超过6个字，是这段设定里最主要那个人；图标只有一个汉字。" },
+    { role:"user", content: text.slice(0, 4000) }
   ];
 
   fetch(api.url,{
-	method:"POST",
-	headers:{
-	  "Content-Type":"application/json",
-	  "Authorization":"Bearer " + api.key
-	},
-	body:JSON.stringify({ model: api.model, messages: askMsgs, temperature:0.3 })
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json",
+      "Authorization":"Bearer " + api.key
+    },
+    body:JSON.stringify({ model: api.model, messages: askMsgs, temperature:0.3 })
   })
   .then(function(r){ return r.text(); })
   .then(function(raw){
-	var name = "角色";
-	var icon = "？";
-	try{
-	  var d = JSON.parse(raw);
-	  var content = d.choices && d.choices[0] && d.choices[0].message
-		? d.choices[0].message.content : "";
-	  content = content.replace(/```json/g,"").replace(/```/g,"").trim();
-	  var j = JSON.parse(content);
-	  if(j.name) name = String(j.name).slice(0,8);
-	  if(j.icon) icon = String(j.icon).slice(0,1);
-	}catch(e){}
+    var name = "角色";
+    var icon = "？";
+    try{
+      var d = JSON.parse(raw);
+      var content = d.choices && d.choices[0] && d.choices[0].message
+        ? d.choices[0].message.content : "";
+      content = content.replace(/```json/g,"").replace(/```/g,"").trim();
+      var j = JSON.parse(content);
+      if(j.name) name = String(j.name).slice(0,8);
+      if(j.icon) icon = String(j.icon).slice(0,1);
+    }catch(e){}
 
-	var arr = getChars();
-	arr.push({ name:name, icon:icon, text:text });
-	setChars(arr);
-	document.getElementById("aText").value = "";
-	addcfg.classList.remove("open");
-	document.getElementById("aSave").disabled = false;
-	renderGrid();
+    var arr = getChars();
+    arr.push({ name:name, icon:icon, text:text });
+    setChars(arr);
+    document.getElementById("aText").value = "";
+    addcfg.classList.remove("open");
+    document.getElementById("aSave").disabled = false;
+    renderGrid();
   })
   .catch(function(){
-	var arr = getChars();
-	arr.push({ name:"角色", icon:"？", text:text });
-	setChars(arr);
-	document.getElementById("aText").value = "";
-	addcfg.classList.remove("open");
-	document.getElementById("aSave").disabled = false;
-	renderGrid();
+    var arr = getChars();
+    arr.push({ name:"角色", icon:"？", text:text });
+    setChars(arr);
+    document.getElementById("aText").value = "";
+    addcfg.classList.remove("open");
+    document.getElementById("aSave").disabled = false;
+    renderGrid();
   });
 };
 
-/* ===== 聊天 ===== */
 function openChat(idx){
   var c = getChars()[idx];
   currentChar = { idx: idx, data: c };
@@ -479,49 +533,30 @@ function openChat(idx){
 
   var bgUrl = localStorage.getItem("bg_"+idx);
   document.getElementById("chatBg").style.backgroundImage =
-	bgUrl ? "url('"+bgUrl+"')" : "none";
+    bgUrl ? "url('"+bgUrl+"')" : "none";
 
   try{ currentHist = JSON.parse(localStorage.getItem(CHAT_VER+"chat_"+idx)) || []; }
   catch(e){ currentHist = []; }
 
   currentHist = currentHist.filter(function(m){
-	return m && m.content && String(m.content).trim().length > 0;
+    return m && m.content && String(m.content).trim().length > 0;
   });
 
   chatBody.innerHTML = "";
   chat.classList.add("open");
 
   currentHist.forEach(function(m){
-	if(m.role === "user") addBubble("me", m.content);
-	else if(m.role === "assistant"){
-	  var el = addBubble("ai", m.content);
-	  attachSwipe(el, [m.content], 0);
-	}
+    if(m.role === "user") addBubble("me", m.content);
+    else if(m.role === "assistant"){
+      var el = addBubble("ai", m.content);
+      attachSwipe(el, [m.content], 0);
+    }
   });
 
   if(currentHist.length === 0){
-	autoOpen();
+    autoOpen();
   }
 }
-
-document.getElementById("chatBgBtn").onclick = function(){
-  if(!currentChar) return;
-  var input = document.createElement("input");
-  input.type = "file";
-  input.accept = "image/*";
-  input.onchange = function(e){
-	var f = e.target.files[0];
-	if(!f) return;
-	var r = new FileReader();
-	r.onload = function(ev){
-	  var url = ev.target.result;
-	  try{ localStorage.setItem("bg_"+currentChar.idx, url); }catch(err){}
-	  document.getElementById("chatBg").style.backgroundImage = "url('"+url+"')";
-	};
-	r.readAsDataURL(f);
-  };
-  input.click();
-};
 
 function saveHist(){
   if(!currentChar) return;
@@ -530,53 +565,53 @@ function saveHist(){
 
 function buildSys(){
   return FORMAT_HINT + "\n\n===以下是人设设定===\n\n" +
-	(currentChar.data.text || "你是"+(currentChar.data.name||"角色")+"。");
+    (currentChar.data.text || "你是"+(currentChar.data.name||"角色")+"。");
 }
 
 function autoOpen(){
   var api = getApi();
   if(!api.url || !api.key){
-	addBubble("sys", "还没填 API。回设置里填好，再重进。");
-	return;
+    addBubble("sys", "还没填 API。回设置里填好，再重进。");
+    return;
   }
   addBubble("sys", "正在载入……");
 
   var msgs = [
-	{ role:"system", content: buildSys() },
-	{ role:"user", content:"（玩家刚刚进入这个窗口，还没说话。请你先开口，说第一句。必须是长对话，动作、台词、细节、心理活动都写出来。结尾摆 A/B/C/D 四个选项。）" }
+    { role:"system", content: buildSys() },
+    { role:"user", content:"（玩家刚刚进入这个窗口，还没说话。请你先开口，说第一句。必须是长对话，动作、台词、细节、心理活动都写出来。结尾摆 A/B/C/D 四个选项。）" }
   ];
 
   fetch(api.url,{
-	method:"POST",
-	headers:{
-	  "Content-Type":"application/json",
-	  "Authorization":"Bearer " + api.key
-	},
-	body:JSON.stringify({ model: api.model, messages: msgs, temperature:0.9 })
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json",
+      "Authorization":"Bearer " + api.key
+    },
+    body:JSON.stringify({ model: api.model, messages: msgs, temperature:0.9 })
   })
   .then(function(r){ return r.text(); })
   .then(function(raw){
-	var out;
-	try{
-	  var d = JSON.parse(raw);
-	  if(d.choices && d.choices[0] && d.choices[0].message) out = d.choices[0].message.content;
-	  else if(d.error) out = "接口报错：" + (d.error.message || JSON.stringify(d.error));
-	  else out = "返回异常：" + raw.slice(0,200);
-	}catch(e){ out = "解析失败：" + raw.slice(0,200); }
+    var out;
+    try{
+      var d = JSON.parse(raw);
+      if(d.choices && d.choices[0] && d.choices[0].message) out = d.choices[0].message.content;
+      else if(d.error) out = "接口报错：" + (d.error.message || JSON.stringify(d.error));
+      else out = "返回异常：" + raw.slice(0,200);
+    }catch(e){ out = "解析失败：" + raw.slice(0,200); }
 
-	chatBody.innerHTML = "";
-	if(!out || !String(out).trim()){
-	  addBubble("sys", "模型返回了空内容。点清空后再试。");
-	  return;
-	}
-	var el = addBubble("ai", out);
-	currentHist.push({ role:"assistant", content: out });
-	saveHist();
-	attachSwipe(el, [out], 0);
+    chatBody.innerHTML = "";
+    if(!out || !String(out).trim()){
+      addBubble("sys", "模型返回了空内容。点清空后再试。");
+      return;
+    }
+    var el = addBubble("ai", out);
+    currentHist.push({ role:"assistant", content: out });
+    saveHist();
+    attachSwipe(el, [out], 0);
   })
   .catch(function(e){
-	chatBody.innerHTML = "";
-	addBubble("sys", "网络错误：" + e.message);
+    chatBody.innerHTML = "";
+    addBubble("sys", "网络错误：" + e.message);
   });
 }
 
@@ -595,11 +630,11 @@ function escapeHtml(s){
 function render(text){
   var parts = String(text).split("```");
   return parts.map(function(p, i){
-	if(i % 2 === 1){
-	  var body = p.replace(/^[a-zA-Z]*\n/,"");
-	  return "<pre>" + escapeHtml(body.trim()) + "</pre>";
-	}
-	return escapeHtml(p).replace(/\n/g, "<br>");
+    if(i % 2 === 1){
+      var body = p.replace(/^[a-zA-Z]*\n/,"");
+      return "<pre>" + escapeHtml(body.trim()) + "</pre>";
+    }
+    return escapeHtml(p).replace(/\n/g, "<br>");
   }).join("");
 }
 
@@ -627,84 +662,84 @@ function attachSwipe(bubbleEl, swipes, idx){
 
   function refreshCount(){ cnt.textContent = (idx+1) + " / " + swipes.length; }
   function writeBack(){
-	for(var k = currentHist.length - 1; k >= 0; k--){
-	  if(currentHist[k].role === "assistant"){
-		currentHist[k].content = swipes[idx];
-		break;
-	  }
-	}
-	saveHist();
+    for(var k = currentHist.length - 1; k >= 0; k--){
+      if(currentHist[k].role === "assistant"){
+        currentHist[k].content = swipes[idx];
+        break;
+      }
+    }
+    saveHist();
   }
 
   prev.onclick = function(){
-	if(idx <= 0) return;
-	idx--;
-	bubbleEl.innerHTML = render(swipes[idx]);
-	refreshCount(); writeBack();
+    if(idx <= 0) return;
+    idx--;
+    bubbleEl.innerHTML = render(swipes[idx]);
+    refreshCount(); writeBack();
   };
   next.onclick = function(){
-	if(idx >= swipes.length - 1) return;
-	idx++;
-	bubbleEl.innerHTML = render(swipes[idx]);
-	refreshCount(); writeBack();
+    if(idx >= swipes.length - 1) return;
+    idx++;
+    bubbleEl.innerHTML = render(swipes[idx]);
+    refreshCount(); writeBack();
   };
 
   more.onclick = function(){
-	var oldLabel = cnt.textContent;
-	cnt.textContent = "生 成 中…";
-	more.disabled = true; more.textContent = "…";
+    var oldLabel = cnt.textContent;
+    cnt.textContent = "生 成 中…";
+    more.disabled = true; more.textContent = "…";
 
-	var api = getApi();
-	if(!api.url || !api.key){
-	  more.disabled=false; more.textContent="＋";
-	  cnt.textContent = oldLabel;
-	  return;
-	}
+    var api = getApi();
+    if(!api.url || !api.key){
+      more.disabled=false; more.textContent="＋";
+      cnt.textContent = oldLabel;
+      return;
+    }
 
-	var msgs = [ { role:"system", content: buildSys() } ];
-	var h = currentHist.slice();
-	for(var k = h.length - 1; k >= 0; k--){
-	  if(h[k].role === "assistant"){ h.splice(k,1); break; }
-	}
-	h.forEach(function(m){ msgs.push(m); });
+    var msgs = [ { role:"system", content: buildSys() } ];
+    var h = currentHist.slice();
+    for(var k = h.length - 1; k >= 0; k--){
+      if(h[k].role === "assistant"){ h.splice(k,1); break; }
+    }
+    h.forEach(function(m){ msgs.push(m); });
 
-	fetch(api.url,{
-	  method:"POST",
-	  headers:{
-		"Content-Type":"application/json",
-		"Authorization":"Bearer " + api.key
-	  },
-	  body:JSON.stringify({ model: api.model, messages: msgs, temperature:1.15 })
-	})
-	.then(function(r){ return r.text(); })
-	.then(function(raw){
-	  var out;
-	  try{
-		var d = JSON.parse(raw);
-		if(d.choices && d.choices[0] && d.choices[0].message) out = d.choices[0].message.content;
-		else if(d.error) out = "接口报错：" + (d.error.message || JSON.stringify(d.error));
-		else out = "返回异常：" + raw.slice(0,200);
-	  }catch(e){ out = "解析失败：" + raw.slice(0,200); }
+    fetch(api.url,{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+        "Authorization":"Bearer " + api.key
+      },
+      body:JSON.stringify({ model: api.model, messages: msgs, temperature:1.15 })
+    })
+    .then(function(r){ return r.text(); })
+    .then(function(raw){
+      var out;
+      try{
+        var d = JSON.parse(raw);
+        if(d.choices && d.choices[0] && d.choices[0].message) out = d.choices[0].message.content;
+        else if(d.error) out = "接口报错：" + (d.error.message || JSON.stringify(d.error));
+        else out = "返回异常：" + raw.slice(0,200);
+      }catch(e){ out = "解析失败：" + raw.slice(0,200); }
 
-	  if(!out || !String(out).trim()){
-		addBubble("sys", "这次返回为空，再点一下＋。");
-		more.disabled = false; more.textContent = "＋";
-		cnt.textContent = oldLabel;
-		return;
-	  }
+      if(!out || !String(out).trim()){
+        addBubble("sys", "这次返回为空，再点一下＋。");
+        more.disabled = false; more.textContent = "＋";
+        cnt.textContent = oldLabel;
+        return;
+      }
 
-	  swipes.push(out);
-	  idx = swipes.length - 1;
-	  bubbleEl.innerHTML = render(out);
-	  cnt.textContent = (idx+1) + " / " + swipes.length;
-	  writeBack();
+      swipes.push(out);
+      idx = swipes.length - 1;
+      bubbleEl.innerHTML = render(out);
+      cnt.textContent = (idx+1) + " / " + swipes.length;
+      writeBack();
 
-	  more.disabled = false; more.textContent = "＋";
-	})
-	.catch(function(){
-	  more.disabled = false; more.textContent = "＋";
-	  cnt.textContent = oldLabel;
-	});
+      more.disabled = false; more.textContent = "＋";
+    })
+    .catch(function(){
+      more.disabled = false; more.textContent = "＋";
+      cnt.textContent = oldLabel;
+    });
   };
 }
 
@@ -714,8 +749,8 @@ chatSend.onclick = function(){
 
   var api = getApi();
   if(!api.url || !api.key){
-	addBubble("sys", "还没填 API。回设置里填。");
-	return;
+    addBubble("sys", "还没填 API。回设置里填。");
+    return;
   }
 
   addBubble("me", t);
@@ -731,42 +766,42 @@ chatSend.onclick = function(){
   currentHist.forEach(function(m){ msgs.push(m); });
 
   fetch(api.url,{
-	method:"POST",
-	headers:{
-	  "Content-Type":"application/json",
-	  "Authorization":"Bearer " + api.key
-	},
-	body:JSON.stringify({ model: api.model, messages: msgs, temperature:0.9 })
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json",
+      "Authorization":"Bearer " + api.key
+    },
+    body:JSON.stringify({ model: api.model, messages: msgs, temperature:0.9 })
   })
   .then(function(r){ return r.text(); })
   .then(function(raw){
-	var out;
-	try{
-	  var d = JSON.parse(raw);
-	  if(d.choices && d.choices[0] && d.choices[0].message) out = d.choices[0].message.content;
-	  else if(d.error) out = "接口报错：" + (d.error.message || JSON.stringify(d.error));
-	  else out = "返回异常：" + raw.slice(0,200);
-	}catch(e){ out = "解析失败：" + raw.slice(0,200); }
+    var out;
+    try{
+      var d = JSON.parse(raw);
+      if(d.choices && d.choices[0] && d.choices[0].message) out = d.choices[0].message.content;
+      else if(d.error) out = "接口报错：" + (d.error.message || JSON.stringify(d.error));
+      else out = "返回异常：" + raw.slice(0,200);
+    }catch(e){ out = "解析失败：" + raw.slice(0,200); }
 
-	if(!out || !String(out).trim()){
-	  addBubble("sys", "模型返回了空内容。再试一次。");
-	  chatSend.disabled = false;
-	  chatSend.textContent = "发送";
-	  return;
-	}
+    if(!out || !String(out).trim()){
+      addBubble("sys", "模型返回了空内容。再试一次。");
+      chatSend.disabled = false;
+      chatSend.textContent = "发送";
+      return;
+    }
 
-	var el = addBubble("ai", out);
-	currentHist.push({ role:"assistant", content: out });
-	saveHist();
-	attachSwipe(el, [out], 0);
+    var el = addBubble("ai", out);
+    currentHist.push({ role:"assistant", content: out });
+    saveHist();
+    attachSwipe(el, [out], 0);
 
-	chatSend.disabled = false;
-	chatSend.textContent = "发送";
+    chatSend.disabled = false;
+    chatSend.textContent = "发送";
   })
   .catch(function(e){
-	addBubble("sys", "网络错误：" + e.message);
-	chatSend.disabled = false;
-	chatSend.textContent = "发送";
+    addBubble("sys", "网络错误：" + e.message);
+    chatSend.disabled = false;
+    chatSend.textContent = "发送";
   });
 };
 
@@ -776,14 +811,14 @@ chatTxt.addEventListener("input", function(){
 });
 chatTxt.addEventListener("keydown", function(e){
   if(e.key === "Enter" && !e.shiftKey){
-	e.preventDefault();
-	var start = chatTxt.selectionStart;
-	var end = chatTxt.selectionEnd;
-	var v = chatTxt.value;
-	chatTxt.value = v.slice(0,start) + "\n" + v.slice(end);
-	chatTxt.selectionStart = chatTxt.selectionEnd = start + 1;
-	chatTxt.style.height = "auto";
-	chatTxt.style.height = Math.min(chatTxt.scrollHeight, 120) + "px";
+    e.preventDefault();
+    var start = chatTxt.selectionStart;
+    var end = chatTxt.selectionEnd;
+    var v = chatTxt.value;
+    chatTxt.value = v.slice(0,start) + "\n" + v.slice(end);
+    chatTxt.selectionStart = chatTxt.selectionEnd = start + 1;
+    chatTxt.style.height = "auto";
+    chatTxt.style.height = Math.min(chatTxt.scrollHeight, 120) + "px";
   }
 });
 
